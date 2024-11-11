@@ -1,0 +1,3 @@
+DROP TABLE IF EXISTS artist_like;
+DROP TABLE IF EXISTS artist;
+DROP EXTENSION IF EXISTS "uuid-ossp";

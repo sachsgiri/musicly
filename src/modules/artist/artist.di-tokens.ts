@@ -1,0 +1,6 @@
+// Tokens used for Dependency Injection
+export const TOP_100_LIKED_ARTISTS_CACHE = Symbol('TOP_100_LIKED_ARTISTS_CACHE');
+
+export const TOP_100_PLAYED_ARTISTS_CACHE = Symbol('TOP_100_PLAYED_ARTISTS_CACHE');
+
+export const TOP_100_POPULAR_ARTISTS_CACHE = Symbol('TOP_100_POPULAR_ARTISTS_CACHE');
