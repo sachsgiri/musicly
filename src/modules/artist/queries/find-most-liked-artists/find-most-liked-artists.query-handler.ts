@@ -40,11 +40,10 @@ export class FindMostLikedArtistsQueryHandler implements IQueryHandler {
   async execute(query: FindMostLikedArtistsQuery): Promise<Result<ArtistResponseDto[], Error>> {
     try {
       let artists = await this.top100LikedArtistsCache.getTopList(query.limit, query.year);
-
       if (artists.length === 0) {
         const statement = sql.type(artistSchema)`
           SELECT *
-          FROM artists
+          FROM artist
           ORDER BY total_likes DESC
           LIMIT 100`;
 

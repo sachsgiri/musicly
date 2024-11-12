@@ -18,8 +18,10 @@ import { ARTIST_REPOSITORY } from './database/artist.repository.port';
 import { ARTIST_ENTITY_RESPONSE_MAPPER, ArtistEntityResponseMapper } from './dtos/artist.mapper';
 import { FindMostLikedArtistsHttpController } from './queries/find-most-liked-artists/find-most-liked-artists.http.controller';
 import { FindMostLikedArtistsQueryHandler } from './queries/find-most-liked-artists/find-most-liked-artists.query-handler';
+import { FindMostPopularArtistsHttpController } from './queries/find-most-popular-artists/find-most-popular-artists.http.controller';
+import { FindMostPopularArtistsQueryHandler } from './queries/find-most-popular-artists/find-most-popular-artists.query-handler';
 
-const httpControllers = [CreateArtistHttpController, FindMostLikedArtistsHttpController];
+const httpControllers = [CreateArtistHttpController, FindMostLikedArtistsHttpController, FindMostPopularArtistsHttpController];
 
 const domainEventHandlers: Provider[] = [
   IncreaseLikeCountOnArtistLikedDomainEventHandler,
@@ -34,14 +36,17 @@ const commandHandlers: Provider[] = [
   DecreaseSongLikeCountCommandHandler,
 ];
 
-const queryHandlers: Provider[] = [FindMostLikedArtistsQueryHandler];
+const queryHandlers: Provider[] = [FindMostLikedArtistsQueryHandler, FindMostPopularArtistsQueryHandler];
 
 const mappers: Provider[] = [
   {
     provide: ARTIST_ENTITY_DB_MODEL_MAPPER,
     useClass: ArtistEntityDbModelMapper,
   },
-  { provide: ARTIST_ENTITY_RESPONSE_MAPPER, useClass: ArtistEntityResponseMapper },
+  {
+    provide: ARTIST_ENTITY_RESPONSE_MAPPER,
+    useClass: ArtistEntityResponseMapper,
+  },
 ];
 
 const repositories: Provider[] = [{ provide: ARTIST_REPOSITORY, useClass: ArtistRepository }];

@@ -254,6 +254,53 @@ curl --location 'http://localhost:3000/v1/songs/most-played?limit=10'
 ]
 ```
 
+find most liked artists
+
+```bash
+curl --location 'http://localhost:3000/v1/artists/most-liked?limit=10&year=2023'
+
+[
+    {
+        "id": "e3105d25-aa00-4378-ac1b-f2ba2a6b73cf",
+        "createdAt": "2024-11-11T19:55:45.770Z",
+        "updatedAt": "2024-11-11T19:55:45.770Z",
+        "name": "Rag'N' Bone Man",
+        "totalPlays": 0,
+        "totalLikes": 1,
+        "totalSongLikes": 0
+    },
+    {
+        "id": "a4dbacfb-ee8d-49cd-a9a5-9f71fe4cda11",
+        "createdAt": "2024-11-11T19:55:45.787Z",
+        "updatedAt": "2024-11-11T19:55:45.787Z",
+        "name": "Simply Red",
+        "totalPlays": 0,
+        "totalLikes": 0,
+        "totalSongLikes": 0
+    }
+]
+
+```
+
+Find most popular artists
+
+```bash
+curl --location 'http://localhost:3000/v1/artists/most-popular?limit=10&year=2024'
+
+[
+    {
+        "id": "e3105d25-aa00-4378-ac1b-f2ba2a6b73cf",
+        "createdAt": "2024-11-11T19:55:45.770Z",
+        "updatedAt": "2024-11-11T19:55:45.770Z",
+        "name": "Rag'N' Bone Man",
+        "totalPlays": 0,
+        "totalLikes": 1,
+        "totalSongLikes": 0
+    },
+]
+```
+
+
 # Limitations
 1. The application is not production ready. It is a proof of concept.
 2. The application does not have any authentication but only jwt authorization mechanism.

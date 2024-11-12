@@ -61,12 +61,11 @@ export class TopListCache<T extends Entity> {
 
     // Get the top IDs and scores from the sorted set
     const results = await this.redisClient.zrevrange(sortedSetKey, 0, adjustedLimit - 1, 'WITHSCORES');
+
     const topList: T[] = [];
 
     for (let i = 0; i < results.length; i += 2) {
       const id = results[i];
-      const score = Number.parseFloat(results[i + 1]);
-
       // Retrieve the full entity object from Redis only if it's stored
       const entityString = await this.redisClient.get(`${this.key}:${this.dataKey}:${id}`);
       if (entityString) {
