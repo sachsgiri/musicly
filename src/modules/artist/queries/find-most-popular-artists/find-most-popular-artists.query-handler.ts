@@ -38,7 +38,7 @@ export class FindMostPopularArtistsQueryHandler implements IQueryHandler {
       if (artists.length === 0) {
         const statement = sql.type(artistSchema)`
           SELECT *
-          FROM artists
+          FROM artist
           ORDER BY (total_likes + total_plays + total_song_likes) DESC
           LIMIT 100`;
 

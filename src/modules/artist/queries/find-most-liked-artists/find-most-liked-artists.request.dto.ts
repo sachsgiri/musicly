@@ -1,14 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, MaxLength } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsNumber, IsOptional, Max, Min } from 'class-validator';
 
 export class FindMostLikedArtistsRequestDto {
-  @ApiProperty({ example: 1, description: 'no. of top artists' })
+  @ApiProperty({ example: 10, description: 'Number of top artists' })
   @IsOptional()
-  @MaxLength(100)
+  @IsNumber()
+  @Min(1)
+  @Max(100)
   limit: number;
 
-  @ApiProperty({ example: 2024, description: 'year' })
+  @ApiProperty({ example: 2024, description: 'Year' })
   @IsOptional()
-  @MaxLength(5000)
+  @IsNumber()
+  @Min(1900)
+  @Max(5000)
   year: number;
 }
