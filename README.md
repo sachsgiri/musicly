@@ -457,6 +457,63 @@ export abstract class AggregateRoot<TSchema extends ZodTypeAny> extends NestAggr
 }
 ```
 
+The song aggregate would be defined as follows:
+
+```typescript
+// entities/song.entity.ts
+import { AggregateRoot } from '../lib/aggregate-root';
+import { SongSchema } from './song.schema';
+import { createEntity, evolveEntity } from '../lib/helpers';
+import { Decoded } from '../lib/zod-types';
+
+import { z } from 'zod';
+
+// Schema for the SongCreated event
+export const SongCreatedEventSchema = z.object({
+  type: z.literal('SongCreated'),
+  songId: z.string().uuid(),
+});
+
+// Schema for the SongLiked event
+export const SongLikedEventSchema = z.object({
+  type: z.literal('SongLiked'),
+  songId: z.string().uuid(),
+  likes: z.number().nonnegative(),
+});
+
+export type SongCreatedEvent = z.infer<typeof SongCreatedEventSchema>;
+export type SongLikedEvent = z.infer<typeof SongLikedEventSchema>;
+
+
+export class Song extends AggregateRoot<typeof SongSchema> {
+  constructor(state: Decoded<typeof SongSchema>) {
+    super(state);
+  }
+
+  static create = createEntity(
+    SongSchema,
+    SongCreatedEventSchema,
+    SongSchema,
+  )(
+    (input) => new Song(input),
+    (state) => ({ type: 'SongCreated', songId: state.id }),  // Creates `SongCreated` event
+  );
+
+  like = evolveEntity(
+    SongSchema,
+    SongLikedEventSchema,
+    SongSchema.pick({ likes: true }),
+  )(
+    (state, input) => new Song({ ...state, likes: state.likes + 1 }),
+    (prevState, newState, changes) => ({
+      type: 'SongLiked',
+      songId: newState.id,
+      likes: newState.likes,
+    }),  // Creates `SongLiked` event
+  );
+}
+```
+
 This would make me define states of the aggregate correctly. Also create variants of aggregate roots for the commands and queries. This would also make define domain events correctly.
 
 Every construct should depend of domain schema (zod here) and everything else must be evolved from it. It makes the code more robust and less error prone.
